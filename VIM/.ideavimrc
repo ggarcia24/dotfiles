@@ -1,0 +1,4 @@
+source ~/.vimrc
+
+nunmap <C-Tab>
+nunmap <C-S-Tab>

@@ -1,0 +1,72 @@
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+*.ids
+.idea
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+#Ignore files used for develoment
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.dll
+*.lib
+*.sbr
+*.pyc
+*.zip
+*.war
+*.jar
+*.swp
+
+# MacOS
+*~
+.DS_Store
+
+.*.sw[po]
+.build
+.ve
+.env
+.cache
+.pytest
+.bootstrap
+.appveyor.token
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+*.komodoproject
+

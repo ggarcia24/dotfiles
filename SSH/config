@@ -1,0 +1,64 @@
+Host bitbucket.org
+  User git
+  IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+Host github.com
+  User git
+  IdentityFile "~/PrivateKeys/ggarcia-gitHub"
+Host refugioscl.com
+  User refugios
+  IdentityFile "~/PrivateKeys/ggarcia-hercules"
+Host reservas.casaserrana.com.ar
+  User ggarcia
+  Port 1522
+  IdentityFile "~/PrivateKeys/ggarcia-hercules"
+  LocalForward 3307 localhost:3306
+Host 52.40.179.56
+  User ec2-user
+  IdentityFile "~/PrivateKeys/perinolaKey2.pem"
+Host *.apcela.net
+  User hernan.halabi
+  IdentityFile "~/Projects/Apcela/ssh-private-key.pem"
+Host apcela-integration
+  User ubuntu
+  IdentityFile "~/PrivateKeys/apcela-integration.pem"
+Host myaws-*
+  IdentityFile "~/PrivateKeys/testing_keypair.pem"
+Host myaws-34.211.23.120
+  User ubuntu
+  Hostname 34.211.23.120
+Host myaws-52.24.17.87
+  User ubuntu
+  Hostname 52.24.17.87
+Host myaws-34.213.141.79
+  User admin
+  Hostname 34.213.141.79
+Host myaws-35.163.20.250
+  User admin
+  Hostname 35.163.20.250
+Host jenkins.proteinmetrics.com
+  User admin
+  IdentityFile "~/PrivateKeys/ggarcia-gitHub"
+  LocalForward 50022 172.31.24.200:35951
+Host 198.58.104.46
+  IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+  User root
+Host 198.58.127.198
+  IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+  User root
+Host 18.222.176.62
+  User ubuntu
+  IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+Host *tocsquash.com
+  User ec2-user
+  IdentityFile "~/PrivateKeys/TOC.pem"
+Host *oraclenetsuiteopen.com
+  User ec2-user
+  IdentityFile "~/PrivateKeys/TOC.pem"
+Host bdv-*
+  IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+Host bdv-bairesdev.com
+  User gonzalogarcia
+  Hostname bairesdev.com
+Host bdv-35.237.40.201
+  User gonzalo.garcia
+  Hostname 35.237.40.201
