@@ -1,0 +1,30 @@
+[submodule "External/bash-it"]
+	path = External/bash-it
+	url = https://github.com/Bash-it/bash-it.git
+[submodule "Gnome/Shell Extensions/activities-config@nls1729"]
+	path = Gnome/Shell Extensions/activities-config@nls1729
+	url = https://github.com/mattdm/activities-config.git
+[submodule "Gnome/Shell Extensions/dash-to-dock@micxgx.gmail.com"]
+	path = Gnome/Shell Extensions/dash-to-dock@micxgx.gmail.com
+	url = https://github.com/micheleg/dash-to-dock.git
+[submodule "Gnome/Shell Extensions/EasyScreenCast@iacopodeenosee.gmail.com"]
+	path = Gnome/Shell Extensions/EasyScreenCast@iacopodeenosee.gmail.com
+	url = https://github.com/EasyScreenCast/EasyScreenCast.git
+[submodule "Gnome/Shell Extensions/gnome-shell-screenshot@ttll.de"]
+	path = Gnome/Shell Extensions/gnome-shell-screenshot@ttll.de
+	url = https://github.com/OttoAllmendinger/gnome-shell-screenshot.git
+[submodule "Gnome/Shell Extensions/remove-dropdown-arrows@mpdeimos.com"]
+	path = Gnome/Shell Extensions/remove-dropdown-arrows@mpdeimos.com
+	url = https://github.com/mpdeimos/gnome-shell-remove-dropdown-arrows.git
+[submodule "Gnome/Shell Extensions/status-area-horizontal-spacing@mathematical.coffee.gmail.com"]
+	path = Gnome/Shell Extensions/status-area-horizontal-spacing@mathematical.coffee.gmail.com
+	url = https://github.com/cyberalex4life/status-area-left-icons-horizontal-spacing-mathematical.coffee.gmail.com.git
+[submodule "Gnome/Shell Extensions/TopIcons@phocean.net"]
+	path = Gnome/Shell Extensions/TopIcons@phocean.net
+	url = https://github.com/phocean/TopIcons-plus.git
+[submodule "Gnome/Shell Extensions/extend-panel-menu@julio641742"]
+	path = Gnome/Shell Extensions/extend-panel-menu@julio641742
+	url = https://github.com/julio641742/extend-panel-menu.git
+[submodule "TopIcons@phocean.net"]
+	path = TopIcons@phocean.net
+	url = https://github.com/phocean/TopIcons-plus.git

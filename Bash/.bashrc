@@ -1,8 +1,63 @@
 # Alwys make sure that ~/bin is on path
-export PATH=$PATH:~/bin
+export PATH=$HOME/bin:$PATH
 
-# Change terminal to resemble the Linux 
-export PS1="\u@\h:\w\$ "
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+# Path to the bash it configuration
+export BASH_IT="$HOME/Projects/ggarcia24_dotfiles/External/bash-it"
+
+# Lock and Load a custom theme file.
+# Leave empty to disable theming.
+# location /.bash_it/themes/
+export BASH_IT_THEME='modern'
+
+# (Advanced): Change this to the name of your remote repo if you
+# cloned bash-it with a remote other than origin such as `bash-it`.
+# export BASH_IT_REMOTE='bash-it'
+
+# Your place for hosting Git repos. I use this for private repos.
+export GIT_HOSTING='git@git.domain.com'
+
+# Don't check mail when opening terminal.
+unset MAILCHECK
+
+# Change this to your console based IRC client of choice.
+export IRC_CLIENT='irssi'
+
+# Set this to the command you use for todo.txt-cli
+export TODO="t"
+
+# Set this to false to turn off version control status checking within the prompt for all themes
+export SCM_CHECK=true
+
+# Set Xterm/screen/Tmux title with only a short hostname.
+# Uncomment this (or set SHORT_HOSTNAME to something else),
+# Will otherwise fall back on $HOSTNAME.
+#export SHORT_HOSTNAME=$(hostname -s)
+
+# Set Xterm/screen/Tmux title with only a short username.
+# Uncomment this (or set SHORT_USER to something else),
+# Will otherwise fall back on $USER.
+#export SHORT_USER=${USER:0:8}
+
+# Set Xterm/screen/Tmux title with shortened command and directory.
+# Uncomment this to set.
+#export SHORT_TERM_LINE=true
+
+# Set vcprompt executable path for scm advance info in prompt (demula theme)
+# https://github.com/djl/vcprompt
+#export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
+
+# (Advanced): Uncomment this to make Bash-it reload itself automatically
+# after enabling or disabling aliases, plugins, and completions.
+# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+
+# Uncomment this to make Bash-it create alias reload.
+export BASH_IT_RELOAD_LEGACY=1
 
 # Make sure VIM is always my editor
 export EDITOR='vim'
@@ -24,77 +79,27 @@ shopt -s histappend
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 ## VIRTUALENVWRAPPER ##
+VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
 export WORKON_HOME=~/Envs
 export PROJECT_HOME=~/Projects
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -f /usr/local/bin/virtualenvwrapper.sh ];then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
-## ALIASES ##
-alias mux="tmuxinator"
-
-# Purpose: avoid killing containers
-function docker-stats() {
-    docker stats
-}
-# Purpose: reset docker environment 
-# Argument (optional): all 
-#
-# "docker-reset" will stop and remove all containers (except dinghy_http_proxy) and custom networks
-#
-# "docker-reset all" will reset the docker environment to clean slate (you will lose *all* volumes and custom networks!)
-#
-# Note: you'll need to install docker-clean: brew install docker-clean
-function docker-reset() {
-  run_all=$1
-
-  if [[ "${run_all}" == "all" ]]; then
-    docker-kill-all
-    echo "Running docker-clean ..."
-    docker-clean
-  else
-    docker-stop-all
-    echo "Running docker-clean --networks ..."
-    docker-clean --networks
-  fi
-}
-
-# Purpose: Kill and remove all docker containers (except for dinghy_http_proxy)
-function docker-kill-all() {
-  PROXY=$(docker ps | grep dinghy_http_proxy | awk '{print $1}')
-  echo "Killing docker containers..."
-  docker kill $(docker ps -q | grep -v $PROXY) &> /dev/null
-  echo "Removing docker containers..."
-  docker rm $(docker ps -a --filter "status=exited" -q) &> /dev/null
-}
-
-# Purpose: Stop and remove all docker containers (except for dinghy_http_proxy)
-function docker-stop-all() {
-  PROXY=$(docker ps | grep dinghy_http_proxy | awk '{print $1}')
-  echo "Stopping docker containers..."
-  docker stop $(docker ps -q | grep -v $PROXY) &> /dev/null
-  echo "Removing docker containers..."
-  docker rm $(docker ps -a --filter "status=exited" -q) &> /dev/null
-}
-
-# Purpose: Delete all images related to the provided tag name
-# Example: `docker-nuke selenium` will delete all images whose tags contain the word "selenium"
-function docker-nuke() {
-  args=("$@")
-  docker ps -a | grep ${args[0]} | cut -d ' ' -f 1 | while read ID; do docker rm $ID; done;
-  docker images | grep ${args[0]} | tr -s " " | cut -d ' ' -f 3 | while read ID; do docker rmi $ID; done
-}
-
-# Purpose: Remove all images
-function docker-rmi-all() {
-  docker rmi -f $(docker images -q)
-}
-
-# Purpose: slap virtualbox
-# Example: Using virtualbox as the VM for dinghy's docker host sometimes causes image download
-# latency. Run this function in a separate shell window when that happens.
-function slap-virtualbox() {
-  while true; do dinghy ssh echo "turbo mode activated"; done
-}
-
+# Start the SSH Agent at the login
+eval "$(ssh-agent -s)"
 
 # added by travis gem
-[ -f /Users/ggarcia/.travis/travis.sh ] && source /Users/ggarcia/.travis/travis.sh
+[ -f "$HOME"/.travis/travis.sh ] && source "$HOME"/.travis/travis.sh
+
+# Load Bash It
+[ -f "$BASH_IT"/bash_it.sh ] && source "$BASH_IT"/bash_it.sh
+
+# Load our dotfiles like ~/.bash_prompt, etc…
+#   ~/.extra can be used for settings you don’t want to commit,
+#   Use it to configure your PATH, thus it being first in line.
+for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
+    [ -r "$file" ] && source "$file"
+done
+unset file
+
