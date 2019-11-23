@@ -34,6 +34,7 @@ export TODO="t"
 # Set this to false to turn off version control status checking within the prompt for all themes
 export SCM_CHECK=true
 
+THEME_SHOW_PYTHON=true
 # Set Xterm/screen/Tmux title with only a short hostname.
 # Uncomment this (or set SHORT_HOSTNAME to something else),
 # Will otherwise fall back on $HOSTNAME.
@@ -41,7 +42,6 @@ export SCM_CHECK=true
 
 # Set Xterm/screen/Tmux title with only a short username.
 # Uncomment this (or set SHORT_USER to something else),
-# Will otherwise fall back on $USER.
 #export SHORT_USER=${USER:0:8}
 
 # Set Xterm/screen/Tmux title with shortened command and directory.
@@ -78,16 +78,25 @@ shopt -s histappend
 # After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
-## VIRTUALENVWRAPPER ##
-VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
-export WORKON_HOME=~/Envs
-export PROJECT_HOME=~/Projects
-if [ -f /usr/local/bin/virtualenvwrapper.sh ];then
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
-
 # Start the SSH Agent at the login
-eval "$(ssh-agent -s)"
+start-ssh-agent() {
+    sshfile=~/.ssh-agent-environment
+    #
+    if [ -n "$SSH_AUTH_SOCK" ]; then
+      ssh-add -l &>/dev/null
+      [[ $? != 2 ]] && unset sshfile && return 0
+    fi
+    #
+    if [ -e "$sshfile" ]; then
+      . $sshfile &>/dev/null
+      ssh-add -l &>/dev/null
+      [[ $? != 2 ]] && unset sshfile && return 0
+    fi
+    #
+    ssh-agent -s > $sshfile && . $sshfile &>/dev/null
+    unset sshfile
+}
+start-ssh-agent
 
 # added by travis gem
 [ -f "$HOME"/.travis/travis.sh ] && source "$HOME"/.travis/travis.sh
@@ -102,4 +111,8 @@ for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

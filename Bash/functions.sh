@@ -1,3 +1,7 @@
+# AS A REQUIREMENT FOR THIS FUNCTIONS YOU NEED TO HAVE INSTALLED docker-clean
+# SEE https://github.com/ZZROTDesign/docker-clean FOR INSTALL INSTRUCTIONS OR
+# DO brew install docker-clean
+
 # Purpose: avoid killing containers
 function docker-stats() {
     docker stats
