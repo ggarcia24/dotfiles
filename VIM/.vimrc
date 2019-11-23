@@ -150,6 +150,8 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
+" Themes
+Plug 'nanotech/jellybeans.vim'
 " Tools
 Plug 'moll/vim-bbye'                                         " Close buffers without closing the window
 Plug 'scrooloose/nerdtree'                                   " Tree
@@ -176,8 +178,11 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }             " Markdown
 Plug 'jtratner/vim-flavored-markdown', { 'for': 'markdown' } " Github Markdown
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }     " Python indent
 Plug 'nvie/vim-flake8', { 'for': 'python' }                  " Python syntax
+Plug 'hashivim/vim-terraform'                                " Terraform
+Plug 'juliosueiras/vim-terraform-completion'                 " Terraform
+Plug 'ekalinin/Dockerfile.vim'                               " Docker
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}                     " Sparkup (HTML expansions i.e div#header + <C-e> -> <div id=                                                    " header " ></div>
-Plug 'vim-vdebug/vdebug'                                     " Debugger!
+" Plug 'vim-vdebug/vdebug'                                     " Debugger!
 call plug#end()
 
 runtime macros/matchit.vim
