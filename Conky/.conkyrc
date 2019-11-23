@@ -3,6 +3,8 @@
 --  Based on ideas and code from the CunchBang Linux forums at http://crunchbanglinux.org
 --  v. 1.5
 --  updated to new syntax by ggarcia24
+-- Requires Fonts:
+-- https://www.dafont.com/openlogos.font
 -------------------------------------------------------------------------------------------
 
 
@@ -10,7 +12,8 @@ conky.config = {
     -------------------
     -- General Settings
     -------------------
-    update_interval=3,
+    update_interval=5,
+    update_interval_on_battery=60,
     total_run_times=0,
     cpu_avg_samples=2,
     net_avg_samples=2,
@@ -23,29 +26,35 @@ conky.config = {
     font="DejaVu Sans:size=8",
     xftalpha=0.8,
     text_buffer_size=2048,
-    alignment="top_right",
     uppercase=false,
-    default_color="#ffe595",
+    default_color="#ffffff",
 
     -------------------
     -- Windows Settings
     -------------------
     own_window=true,
-    own_window_transparent=true,
     own_window_type="desktop",
-    own_window_hints="undecorated,below,sticky,skip_taskbar,skip_pager",
-    own_window_colour="grey",
+    own_window_transparent=true,
+    own_window_hints="undecorated,above,sticky,skip_taskbar,skip_pager",
+    -- own_window_class="overwride",
+    -- own_window_colour="111111",
+    own_window_argb_visual = true,
+    -- own_window_argb_value = 0,
     double_buffer=true,
     draw_shades=false,
     draw_outline=false,
     draw_borders=false,
     
     -------------------
-    -- Windows Size
+    -- Windows Position and Size
     -------------------
+    alignment="top_right",
+    gap_x=0,
+    gap_y=30,
+    maximum_width=100,
     minimum_height=180,
     stippled_borders=0,
-    border_outer_margin=5,
+    border_outer_margin=0,
     border_width=1,
     no_buffers=true,
     use_spacer="none"
@@ -53,35 +62,61 @@ conky.config = {
 
 conky.text = [[
     SYSTEM ${hr 2}
-    ${font Arial Black:size=14}${nodename}${font}
-
-    ${voffset 2}${font OpenLogos:size=17}J${font} Kernel: ${alignr}${kernel}
-    ${font StyleBats:size=17}A${font} CPU1: ${cpu cpu1}% ${alignr}${cpubar cpu1 8,60}
-    ${font StyleBats:size=17}A${font} CPU2: ${cpu cpu2}% ${alignr}${cpubar cpu2 8,60}
-    ${font StyleBats:size=17}A${font} CPU3: ${cpu cpu3}% ${alignr}${cpubar cpu3 8,60}
-    ${font StyleBats:size=17}A${font} CPU4: ${cpu cpu4}% ${alignr}${cpubar cpu4 8,60}
-    ${font StyleBats:size=17}g${font} RAM: $memperc% ${alignr}${membar 8,60}
-    ${font StyleBats:size=17}j${font} SWAP: $swapperc% ${alignr}${swapbar 8,60}
-    ${font Webdings:size=17}~${font} Battery: ${battery_percent BAT0}% ${alignr}${battery_bar 8,60 BAT0}
-    ${font StyleBats:size=16}q${font} Uptime: ${alignr}${uptime}
-
+    ${offset 24}${alignc}${font OpenLogos:size=50}J${font} 
     DATE ${hr 2}
-    ${alignc 19}${font Arial Black:size=18}${time %H:%M}${font}
-    ${voffset 2}${alignc}${time %A, %d %B %Y}
+    ${offset 8}${alignc}${font Arial Black:size=18}${time %H:%M}${font}
+    ${alignc}${time %a, %d}
+    ${alignc}${time %B}
+    ${alignc}${time %Y}
 
     WEATHER ${hr 2}
+    ${font size=1}${execi 600 bash ~/.conky/scripts/accu_weather/rss/acc_rss}${font}${offset 20}${alignc}${font conkyweather:size=40}${execpi 600 sed -n '2p' ~/.conky/scripts/accu_weather/rss/weather}${font}
+    ${offset 20}${voffset -15}${alignc}${font Arial Black:size=16}${execpi 600 sed -n '1p' ~/.conky/scripts/accu_weather/rss/weather|awk '{print $NF}' | sed -e 's/C/°C/i'}${font}
+    ${hr}
+    ${execpi 1800 sed -n '3p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/ Forecast//'}
+    ${alignc}${font conkyweather:size=30}${execpi 1800 sed -n '5p' ~/.conky/scripts/accu_weather/rss/weather}${font}
+    ${execpi 1800 sed -n '4p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\1/' | sed -e 's/C/°C/i'}
+    ${execpi 1800 sed -n '4p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\2/' | sed -e 's/C/°C/i'}
+    ${hr}
+    ${execpi 1800 sed -n '6p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/ Forecast//'}
+    ${alignc}${font conkyweather:size=30}${execpi 1800 sed -n '8p' ~/.conky/scripts/accu_weather/rss/weather}${font}
+    ${execpi 1800 sed -n '7p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\1/' | sed -e 's/C/°C/i'}
+    ${execpi 1800 sed -n '7p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\2/' | sed -e 's/C/°C/i'}
 
+    LOAD ${hr 2}
+    Battery: ${alignr}${battery_percent} %
+    ${alignr}${battery_bar 8,60}
+    ${alignr}(${battery_time})
+    CPU: ${alignr}${cpu cpu0}% ${hwmon 2 temp 1}°C
+    ${alignr}${cpubar cpu0 8,60}
+    ${alignr}${freq_g 0}GHz
+    RAM: $memperc%
+    ${alignr}${membar 8,60}
+    SWAP: $swapperc%
+    ${alignr}${swapbar 8,60}
+    Fan 1:
+    ${alignr}${hwmon 1 fan 1} Rpm
+    Fan 2:
+    ${alignr}${hwmon 1 fan 2} Rpm
 
-    ${voffset -10}HD ${hr 2}
-    ${voffset 4}${font Pie charts for maps:size=14}7${font} ${voffset -5}Root:
-    ${voffset 4}${fs_used /}/${fs_size /} ${alignr}${fs_bar 8,60 /}
-    ${voffset 4}${fs_used /media/datos}/${fs_size /media/datos} ${alignr}${fs_bar 8,60 /media/datos}
+    PROCESSES ${hr 2}
+    ${top name 1}
+    ${top name 2}
+    ${top name 3}
+    ${top name 4}
+    ${top name 5}
+
+    HD ${hr 2}
+    ${voffset 4}Root: ${alignr}${fs_used /}
+    ${alignr}${fs_bar 8,60 /}
+    ${voffset 4}Home: ${alignr}${fs_used /home}
+    ${alignr}${fs_bar 8,60 /home}
 
     NETWORK ${hr 2}
-    ${if_existing /proc/net/route wlp3s0}
-    ${voffset -6}${font PizzaDude Bullets:size=14}O${font} Up: ${upspeed wlp3s0}${alignr}${upspeedgraph wlp3s0 8,60 black black}
-    ${voffset 4}${font PizzaDude Bullets:size=14}U${font} Down: ${downspeed wlp3s0}${alignr}${downspeedgraph wlp3s0 8,60 black black}
-    ${voffset 4}${font PizzaDude Bullets:size=14}N${font} Upload: ${alignr}${totalup wlp3s0}
-    ${voffset 4}${font PizzaDude Bullets:size=14}T${font} Download: ${alignr}${totaldown wlp3s0}
+    ${if_existing /proc/net/route wlp59s0}
+    Up: ${upspeed wlp59s0}
+    ${alignr}${upspeedgraph wlp59s0 8,60 black black}
+    Down: ${downspeed wlp59s0}
+    ${alignr}${downspeedgraph wlp59s0 8,60 black black}
     ${endif}
 ]]

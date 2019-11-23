@@ -88,6 +88,11 @@ if [ ! -d ~/bin ]; then
     ln -sf "$DOTFILES_LOCATION/Scripts" bin
 fi
 
+if [ $(command -v conky) ]; then
+    ln -sf "$DOTFILES_LOCATION/Conky" .conky
+    ln -sf "$DOTFILES_LOCATION/Conky/.conkyrc" .conkyrc
+fi
+
 cat <<EOF > ~/.bash_profile
 if [ -f "$HOME"/.bashrc ]; then
     source $HOME/.bashrc
