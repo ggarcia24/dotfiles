@@ -8,7 +8,7 @@ case $- in
 esac
 
 # Path to the bash it configuration
-export BASH_IT="$HOME/Projects/ggarcia24_dotfiles/External/bash-it"
+export BASH_IT="$HOME/ggarcia24_dotfiles/External/bash-it"
 
 # Lock and Load a custom theme file.
 # Leave empty to disable theming.
@@ -54,13 +54,13 @@ THEME_SHOW_PYTHON=true
 
 # (Advanced): Uncomment this to make Bash-it reload itself automatically
 # after enabling or disabling aliases, plugins, and completions.
-# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 # Uncomment this to make Bash-it create alias reload.
 export BASH_IT_RELOAD_LEGACY=1
 
 # Make sure VIM is always my editor
-export EDITOR='vim'
+export EDITOR='mvim'
 
 # Locales
 export LC_ALL=en_US.UTF-8
@@ -71,7 +71,7 @@ HISTFILESIZE=50000
 HISTSIZE=1000
 
 # Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups  
+export HISTCONTROL=ignoredups:erasedups
 # When the shell exits, append to the history file instead of overwriting it
 shopt -s histappend
 
@@ -103,6 +103,12 @@ start-ssh-agent
 
 # Load Bash It
 [ -f "$BASH_IT"/bash_it.sh ] && source "$BASH_IT"/bash_it.sh
+
+# Load PyENV:
+[ command -v pyenv 1>/dev/null 2>&1 ] eval "$(pyenv init -)"
+
+# Docker Machine
+[ command -v docker-machine 1>/dev/null 2>&1 ] && eval "$(docker-machine env default)"
 
 # Load our dotfiles like ~/.bash_prompt, etc…
 #   ~/.extra can be used for settings you don’t want to commit,

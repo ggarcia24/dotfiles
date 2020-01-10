@@ -1,6 +1,9 @@
 [submodule "External/bash-it"]
 	path = External/bash-it
 	url = https://github.com/Bash-it/bash-it.git
+[submodule "External/powerline-fonts"]
+	path = External/powerline-fonts
+	url = https://github.com/powerline/fonts.git
 [submodule "Gnome/Shell Extensions/activities-config@nls1729"]
 	path = Gnome/Shell Extensions/activities-config@nls1729
 	url = https://github.com/mattdm/activities-config.git
@@ -28,3 +31,9 @@
 [submodule "TopIcons@phocean.net"]
 	path = TopIcons@phocean.net
 	url = https://github.com/phocean/TopIcons-plus.git
+[submodule "External/FiraCode"]
+	path = External/FiraCode
+	url = https://github.com/tonsky/FiraCode.git
+[submodule "External/vim-profiler"]
+	path = External/vim-profiler
+	url = https://github.com/bchretien/vim-profiler

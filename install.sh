@@ -2,7 +2,7 @@
 
 set -x
 
-DOTFILES_LOCATION="$HOME"/Projects/ggarcia24_dotfiles
+DOTFILES_LOCATION="$HOME"/ggarcia24_dotfiles
 
 CURRENT_DIR=$(pwd)
 

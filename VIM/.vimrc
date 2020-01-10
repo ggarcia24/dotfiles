@@ -31,15 +31,12 @@ endif
 
 "" Basic vim {
 colorscheme desert
+set macligatures
+set guifont=Fira\ Code:h12
 let mapleader = ","
 set title " Show the filename in the window titlebar
 set nocompatible
 set noshowmode " Don't show the current mode (lightline.vim takes care of us)
-filetype off
-filetype plugin on
-filetype indent plugin on
-syntax on
-set encoding=utf-8 nobomb " BOM often causes trouble
 set ttyfast
 set relativenumber " Always use relative number
 autocmd InsertEnter * :set number " When entering insert mode change to number mode
@@ -56,7 +53,7 @@ if has("clipboard") " Attempt to unify clipboards
     endif
 endif
 set nowrap
-set textwidth=120 " Line length
+set textwidth=96 " Line length
 set formatoptions= " Empty format options
 set formatoptions+=c " Format comments
 set formatoptions+=r " Continue comments by default
@@ -69,14 +66,14 @@ set formatoptions+=1 " Break before 1-letter words
 set formatoptions+=j "
 set colorcolumn=+1
 set hidden  " switch to another buffer without having to save it!
-au FocusLost * :wa " Save on lost focus!
+"" autocmd FocusLost * :wa " Save on lost focus!
 set nobackup
 set noswapfile
 set scrolloff=3
 set cursorline " Highlight current line
 set diffopt=filler " Add vertical spaces to keep right and left aligned
 set diffopt+=iwhite " Ignore whitespace changes (focus on code changes)
-set listchars=tab:▸\ ,eol:¬ " Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,space:␣" Use the same symbols as TextMate for tabstops and EOLs
 set lazyredraw " redraw only when we need to.
 set magic " Enable extended regexes
 set modeline " Allow configuration from a comment line at the beginning or the bottom
@@ -86,6 +83,7 @@ set modelines=5
 "" Basic Mappings {
 " Disable EX mode
 nnoremap Q <Nop>
+" Move between windows using CTRL+h,j,k,l
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -95,8 +93,8 @@ nnoremap j gj
 nnoremap k gk
  " Clear search results
 nnoremap <leader><space> :noh<CR>
-" Toggle whistpace
-nmap <leader>l :set list!<CR>
+" Toggle show whistpace chars
+nmap <leader>z :set list!<CR>
 " space open/closes folds
 nnoremap <space> za
 " open ack.vim
@@ -109,6 +107,8 @@ nnoremap <C-7> <leader>cc<CR>
 nnoremap <C-/> <leader>cu<CR>
 inoremap <C-7> <Esc><leader>cc<CR>
 inoremap <C-/> <Esc><leader>cu<CR>
+" Move faster between buffers
+nnoremap <leader>l :ls<CR>:b<Space>
 "" }
 
 "" Self-torture {
@@ -150,47 +150,70 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
+"
+Plug 'tpope/vim-sensible'                                           " Sensible standards
 " Themes
 Plug 'nanotech/jellybeans.vim'
 " Tools
 Plug 'moll/vim-bbye'                                         " Close buffers without closing the window
 Plug 'scrooloose/nerdtree'                                   " Tree
-Plug 'itchyny/lightline.vim'                                 " Cool & Fast status line
-Plug 'mgee/lightline-bufferline'                             " Buffers instead of tabs!
+Plug 'inkarkat/vim-localrc'                                  " Per directory .local.vimrc configuration file from directories <- Disable to recursion when using on home file
+
+" # IDE/CODE Utilities #
 Plug 'tpope/vim-repeat'                                      " Allow some commands to be repeted via .
 Plug 'tpope/vim-surround'                                    " Change surrounding charactes
 Plug 'mileszs/ack.vim'                                       " Find code faster!
-Plug 'scrooloose/nerdcommenter'                              " Comments
 Plug 'kien/ctrlp.vim'                                        " Fuzzy finder
+Plug 'itchyny/lightline.vim'                                 " Cool & Fast status line
+" Plug 'mgee/lightline-bufferline'                             " Buffers instead of tabs!
+Plug 'scrooloose/nerdcommenter'                              " Comments
+Plug 'majutsushi/tagbar'                                     " Class/module browser
 Plug 'Townk/vim-autoclose'                                   " Autoclose (,[,etc
 Plug 'godlygeek/tabular'                                     " Align assignments and comments
 Plug 'itchyny/vim-gitbranch'                                 " Only need that branch
 Plug 'airblade/vim-gitgutter'                                " Show git line status on the gutter
 Plug 'junegunn/vim-peekaboo'                                 " Show the registers contents
+Plug 'tyru/open-browser.vim'
 Plug 'Chiel92/vim-autoformat'                                " Autoformat!
-Plug 'inkarkat/vim-localrc'                                  " Per directory .local.vimrc configuration file from directories <- Disable to recursion when using on home file
 Plug 'takac/vim-hardtime'                                    " Self-torture!
 Plug 'Valloric/YouCompleteMe'                                " Autocomplete
 Plug 'vim-syntastic/syntastic'                               " Check languages syntax with linter
+Plug 'Valloric/MatchTagAlways'                               " Highlights the enclosing html/xml tags
+Plug 'sheerun/vim-polyglot'
+Plug 'jeetsukumaran/vim-indentwise'
+Plug 'michaeljsmith/vim-indent-object'
+
+Plug 'tmux-plugins/vim-tmux'
+
 Plug 'tpope/vim-cucumber'                                    " Cucumber
 Plug 'rooprob/vim-behave'                                    " Behave
+
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }             " Markdown
 Plug 'jtratner/vim-flavored-markdown', { 'for': 'markdown' } " Github Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+
 Plug 'vim-scripts/indentpython.vim', { 'for': 'python' }     " Python indent
 Plug 'nvie/vim-flake8', { 'for': 'python' }                  " Python syntax
+
 Plug 'hashivim/vim-terraform'                                " Terraform
 Plug 'juliosueiras/vim-terraform-completion'                 " Terraform
-Plug 'ekalinin/Dockerfile.vim'                               " Docker
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'}                     " Sparkup (HTML expansions i.e div#header + <C-e> -> <div id=                                                    " header " ></div>
-" Plug 'vim-vdebug/vdebug'                                     " Debugger!
-call plug#end()
 
-runtime macros/matchit.vim
+Plug 'ekalinin/Dockerfile.vim'                               " Docker
+Plug 'rstacruz/sparkup', {'rtp': 'vim/'}                     " Sparkup (HTML expansions i.e div#header + <C-e> -> <div id="header"></div>
+" Plug 'vim-vdebug/vdebug'                                     " Debugger!
+Plug 'moll/vim-node'                                         " Node/Javascript support
+Plug 'aklt/plantuml-syntax'                                  " PlantUML syntax
+Plug 'weirongxu/plantuml-previewer.vim'                      " Preview PlantUML
+call plug#end()
 "" }
 
 "" Bbye {
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args> "  Add an alias to Bclose
-nnoremap <Leader>q :Bdelete<CR>
+nnoremap <leader>q :Bdelete<CR>
+"" }
+
+"" Markdown Preview {
+let g:mkdp_auto_start = 1
 "" }
 
 "" YouCompleteMe {
@@ -218,9 +241,7 @@ let g:hardtime_maxcount = 2
 "" }
 
 "" Lightline Config {
-set ruler
-set showtabline=2
-set laststatus=2
+set showtabline=1
 set confirm
 set visualbell
 let g:lightline#bufferline#show_number  = 1
@@ -249,7 +270,7 @@ let g:lightline = {
 let g:NERDTreeShowHidden=1
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
-let g:NERDTreeIgnore=['\.pyc$', '\~$', 'tags'] "ignore files in NERDTree
+let g:NERDTreeIgnore=['\.py[co]$', '\~$', 'tags', '.DS_Store'] "ignore files in NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -265,6 +286,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe = 'npm run lint --'
 let g:syntastic_python_checkers = ['flake8', 'pylint']
 let g:syntastic_python_pylint_args = '--rcfile=~/.pylintrc'
 let g:syntastic_ruby_checkers = ['rubocop']
@@ -273,7 +296,6 @@ let g:syntastic_ruby_checkers = ['rubocop']
 
 "" Command/File Autocomplete {
 set path+=** " Search files recursively from CWD
-set wildmenu " Show a menu with matches
 set wildmode=full
 set showmode
 set showcmd
@@ -294,13 +316,10 @@ set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,
 
 "" Whitespace/Indenting {
 set smartindent
-set autoindent
 set copyindent
-set smarttab
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-set backspace=indent,eol,start
 "" }
 
 "" Searching {
@@ -308,7 +327,6 @@ nnoremap / /\v
 vnoremap / /\v
 set showmatch
 set hlsearch
-set incsearch
 set ignorecase
 set smartcase
 hi Search ctermbg=LightYellow
@@ -374,22 +392,26 @@ highlight BadWhitespace ctermbg=red guibg=red
 au FileType cucumber setl sw=2 sts=2 et
 au Bufread,BufNewFile *.feature set filetype=cucumber
 
+" Javascript
+au Bufread,BufNewFile *.js set filetype=javascript
+" autocmd Filetype javascript setlocal ts=2 sw=2 expandtab
 
 " Jenkinsfile
 autocmd BufNewFile,BufRead Jenkinsfile setf groovy
+
 " YAML
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " for html/rb files, 2 spaces
 autocmd Filetype html setlocal ts=2 sw=2 expandtab
-autocmd Filetype javascript setlocal ts=2 sw=2 expandtab
 autocmd Filetype ruby setlocal ts=2 sw=2 expandtab
 
 " for python files
 " Display tabs at the beginning of a line in Python mode as bad.
 autocmd BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
 " Make trailing whitespace be flagged as bad.
-autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+autocmd BufRead,BufNewFile *.* match BadWhitespace /\s\+$/
 
 "" }
 
