@@ -1,35 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+setopt promptsubst
+
 export TERM="xterm-256color"
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+if [ ! -f  ~/.antigen.zsh ]; then
+    curl -L git.io/antigen > ~/.antigen.zsh
+fi
+source ~/.antigen.zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-BULLETTRAIN_VIRTUALENV_BG=magenta
-BULLETTRAIN_NVM_BG=yellow
-BULLETTRAIN_NVM_FG=black
-BULLETTRAIN_GIT_COLORIZE_DIRTY=true
-BULLETTRAIN_GIT_COLORIZE_DIRTY_BG_COLOR=red
-
-BULLETTRAIN_PROMPT_ORDER=(
-    dir
-    status
-    ruby
-    virtualenv
-    nvm
-    git
-    custom
-    screen
-    aws
-    cmd_exec_time
-  )
-
-ZSH_THEME="bullet-train"
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -89,17 +71,23 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    git
-    brew
-    osx
-    z
-    pyenv
-    zsh-autosuggestions
-    zsh-nvm
-)
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle safe-paste
+antigen bundle brew
+antigen bundle git
+antigen bundle npm
+antigen bundle nvm
+antigen bundle osx
+antigen bundle pipenv
+antigen bundle pyenv
+antigen bundle tmux
+antigen bundle z
 
-source $ZSH/oh-my-zsh.sh
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-autosuggestions
+
 
 # User configuration
 
@@ -127,6 +115,36 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+antigen theme https://github.com/caiogondim/bullet-train-oh-my-zsh-theme bullet-train
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+BULLETTRAIN_VIRTUALENV_BG=magenta
+BULLETTRAIN_NVM_BG=yellow
+BULLETTRAIN_NVM_FG=black
+BULLETTRAIN_GIT_COLORIZE_DIRTY=true
+BULLETTRAIN_GIT_COLORIZE_DIRTY_BG_COLOR=red
+
+BULLETTRAIN_PROMPT_ORDER=(
+    dir
+    status
+    ruby
+    virtualenv
+    nvm
+    git
+    custom
+    screen
+    aws
+    cmd_exec_time
+  )
+
+ZSH_THEME="bullet-train"
+
+# Tell Antigen that you're done.
+antigen apply
+
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [[ -f /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
@@ -139,14 +157,6 @@ fi
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
-
-### Added by Zplugin's installer
-source "$HOME/.zplugin/bin/zplugin.zsh"
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
-### End of Zplugin installer's chunk
-#
-zplugin ice pick"async.zsh" src"caiogondim/bullet-train.zsh"
 
 setopt AUTO_CD            # Change to a directory just by typing its name
 setopt AUTO_PUSHD         # Make cd push each old directory onto the stack
