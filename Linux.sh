@@ -1,5 +1,9 @@
 #! /bin/bash
 
+apt update
+
+apt install vim-nox silversearcher-ag
+
 EXTENSIONS_DIR=$HOME/.local/share/gnome-shell/extensions
 
 # Manually install Gnome extensions:

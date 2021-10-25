@@ -70,3 +70,4 @@ $RECYCLE.BIN/
 .pydevproject
 *.komodoproject
 
+*.orig

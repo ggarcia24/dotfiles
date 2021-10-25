@@ -40,7 +40,8 @@ module.exports = {
           "facebook.com",
           "wikipedia.org",
           "linkedin.com",
-          "medium.com"
+          "medium.com",
+          "github.com"
         ]),
         browser: "Firefox"
     }

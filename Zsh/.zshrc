@@ -1,5 +1,11 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$PATH
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+eval "$(direnv hook zsh)"
 
 setopt promptsubst
 
@@ -80,14 +86,13 @@ antigen bundle nvm
 antigen bundle osx
 antigen bundle pipenv
 antigen bundle pyenv
-antigen bundle tmux
+# antigen bundle tmux
 antigen bundle z
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
-
 
 # User configuration
 
@@ -96,12 +101,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
-fi
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -180,56 +180,10 @@ setopt SHARE_HISTORY        # Constantly share history between shell instances
 
 setopt INTERACTIVE_COMMENTS # Allow comments in interactive mode
 
-# blank aliases
-typeset -a baliases
-baliases=()
-
-balias() {
-  alias $@
-  args="$@"
-  args=${args%%\=*}
-  baliases+=(${args##* })
-}
-
-# ignored aliases
-typeset -a ialiases
-ialiases=()
-
-ialias() {
-  alias $@
-  args="$@"
-  args=${args%%\=*}
-  ialiases+=(${args##* })
-}
-
-# functionality
-expand-alias-space() {
-  [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; insertBlank=$?
-  if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
-    zle _expand_alias
-  fi
-  zle self-insert
-  if [[ "$insertBlank" = "0" ]]; then
-    zle backward-delete-char
-  fi
-}
-zle -N expand-alias-space
-
-bindkey " " expand-alias-space
-bindkey -M isearch " " magic-space
-
-# command aliases
-alias jj='java -jar'
-alias mcp='mvn clean package'
-
-# blank aliases, without trailing whitespace
-balias clh='curl localhost:'
-
-# "ignored" aliases, not expanded
-ialias l='ls -al'
-ialias curl='curl --silent --show-error'
-ialias tf='terraform'
-ialias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias l='ls -al'
+alias curl='curl --silent --show-error'
+alias tf='terraform'
+alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 
 # global aliases
 alias -g L='| less'

@@ -23,9 +23,11 @@ function install_package() {
     if [ $OS == 'MacOS' ]; then
         # If brew isn't there install it
         if ! [ -x "$(command -v brew)" ]; then
-            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-            brew tap caskroom/cask
-            brew tap caskroom/versions
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+            brew tap homebrew/cask
+            brew tap homebrew/cask-versions
+            brew tap homebrew/cask-fonts
         fi
         brew install $1
         exit_code=$?
@@ -72,7 +74,19 @@ cd $HOME
 ln -sf "$DOTFILES_LOCATION/Bash/.bashrc"
 ln -sf "$DOTFILES_LOCATION/Bash/aliases.sh" .aliases
 ln -sf "$DOTFILES_LOCATION/Bash/functions.sh" .functions
+
+if [ ! -f ~/.gitconfig ]; then
+    touch ~/.gitconfig
+fi
+cat <<EOF >> ~/.gitconfig
+
+[include]
+	path = ~/ggarcia24_dotfiles/Git/.gitconfig
+
+EOF
+
 ln -sf "$DOTFILES_LOCATION/Git/.gitignore" .gitignore_global
+ln -sf "$DOTFILES_LOCATION/Zsh/.zshrc"
 
 if [ ! -d ~/.ssh ]; then
     ln -sf "$DOTFILES_LOCATION/SSH" .ssh
@@ -127,7 +141,26 @@ eval "\$(rbenv init -)"
 EOF
 fi
 
+# If there's mapping configure it here
+# hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000035,"HIDKeyboardModifierMappingDst":0x700000064},{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}'
+
 cd $CURRENT_DIR
+
+if [! $(command -v nvim) ]; then 
+    install_package neovim
+fi
+
+if [! $(command -v tux) ]; then 
+    install_package tmux
+fi
+
+if [! $(command -v pyenv) ]; then 
+    install_package pyenv
+fi
+
+# Install NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
 
 echo "If you are on a Linux remember to execute $DOTFILES_LOCATION/Linux.sh"
 echo "If you are on a Mac remember to execute $DOTFILES_LOCATION/MacOS.sh"

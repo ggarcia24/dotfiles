@@ -1,0 +1,25 @@
+[core]
+	excludesfile = ~/.gitignore_global
+
+[init]
+	defaultBranch = develop
+
+[help]
+	autocorrect = 20
+
+[alias]
+	st = status -sb
+    co = switch
+    save = !git add -A && git commit -m 'chore: commit save point'
+    refresh = pull --ff-only --autostash --prune
+    undo = reset HEAD~1 --mixed
+    lg = log --oneline --decorate --all --graph
+    changelog = log origin..HEAD --format='* %s%n%w(,4,4)%+b'
+    amend = commit --amend --reuse-message=HEAD
+    unstage = reset --soft HEAD^
+    wo = workon
+    workon = !git checkout develop && git pull && git co -c 
+
+[includeIf "gitdir:~/Dropbox/Projects/Personal/"]
+  path = ~/Dropbox/Projects/Personal/.gitconfig_include
+

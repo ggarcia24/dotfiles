@@ -3,28 +3,25 @@ ControlPath /tmp/ssh_mux_%h_%p_%r
 ServerAliveInterval 300
 ServerAliveCountMax 3
 ForwardAgent yes
+CanonicalizeHostname yes
+
+# Include Work config
+include ~/Projects/Config/SSH/*
 
 Host *
  IgnoreUnknown AddKeysToAgent,UseKeychain
- UseRoaming No
+ # UseRoaming No
  AddKeysToAgent yes
  UseKeychain yes
  IdentityFile "~/PrivateKeys/ggarcia_ares.rsa"
 Host bitbucket.org
   User git
   IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"
+Host ssh.dev.azure.com
+  User git
+  IdentityFile "~/PrivateKeys/ggarcia_apollo"
 Host gitlab.com
   User git
 Host github.com
   User git
-Host esKibanaAccess-dev
-    User zoi-gonzalogarcia
-    IdentityFile "~/PrivateKeys/ggarcia-apollo"
-    Hostname bastion-host.dev-iot.kaercher.com
-    LocalForward 5601 vpc-state-data-v2-igdzql6545dx7zdsp23svhy55a.eu-west-1.es.amazonaws.com:443
-Host esKibanaAccess-stg
-    User zoi-gonzalogarcia
-    IdentityFile "~/PrivateKeys/ggarcia-apollo"
-    Hostname bastion-host.stage-iot.kaercher.com
-    LocalForward 5702 vpc-state-data-v2-nenpiaowt577xydsiqvaomcv54.eu-west-1.es.amazonaws.com:443
-    LocalForward 5701 vpc-state-data-v2-nenpiaowt577xydsiqvaomcv54.eu-west-1.es.amazonaws.com:443
+

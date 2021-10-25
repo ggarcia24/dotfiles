@@ -15,8 +15,8 @@ if has('unix')
         " Fix python problem
         if has('python3')
             command! -nargs=1 Py py3 <args>
-            "" set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.7/Python
-            "" set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.7
+            " set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.7/Python
+            " set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.7
         endif
 
         if has('python')
@@ -31,7 +31,7 @@ endif
 
 "" Basic vim {
 colorscheme desert
-set macligatures
+" set macligatures
 set guifont=Fira\ Code:h12
 let mapleader = ","
 set title " Show the filename in the window titlebar
@@ -176,7 +176,7 @@ Plug 'junegunn/vim-peekaboo'                                 " Show the register
 Plug 'tyru/open-browser.vim'
 Plug 'Chiel92/vim-autoformat'                                " Autoformat!
 Plug 'takac/vim-hardtime'                                    " Self-torture!
-Plug 'Valloric/YouCompleteMe'                                " Autocomplete
+" Plug 'Valloric/YouCompleteMe'                                " Autocomplete
 Plug 'vim-syntastic/syntastic'                               " Check languages syntax with linter
 Plug 'Valloric/MatchTagAlways'                               " Highlights the enclosing html/xml tags
 Plug 'sheerun/vim-polyglot'
