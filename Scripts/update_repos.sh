@@ -6,7 +6,6 @@ set -e
 shopt -s nocasematch
 
 projects_directory="~/Projects"
-output_message=""
 
 function log() {
     if [ ! -z $DEBUG ]; then
@@ -34,34 +33,38 @@ else
 fi
 
 for prj in $projects; do
-    output_message=$output_message"Selected Project: $prj"$'\n'
-    output_message=$output_message"Repositories updated:"$'\n'
+    echo "Selected Project: $prj"
     project_path="$code_path"/"$prj"
     cd $project_path
     for repo in $(ls -1); do
         repo_path=$project_path/"$repo"
         if [[ -d $repo_path && -d $repo_path/.git && ! $repo =~ ^zz-deprecated ]]; then
-            log "Processing Repo: $repo"
             cd $repo_path
-            if git rev-parse --quite --verify origin/develop > /dev/null; then
-                git checkout develop --quiet
-            else
-                if git rev-parse --verify origin/master > /dev/null; then
-                    git checkout master --quiet
+            # If the repository has a remote
+            if [[ ! -z $(git remote) ]]; then
+                # Checkout the correct branch (develop, else master, else main_
+                if git rev-parse --quiet --verify origin/develop > /dev/null; then
+                    git checkout develop --quiet
                 else
-                    git checkout main --quiet
+                    if git rev-parse --quiet --verify origin/master > /dev/null; then
+                        git checkout master --quiet
+                    else
+                        git checkout main --quiet
+                    fi
                 fi
-            fi
-            git pull --quiet --prune --ff-only --progress --autostash
-            if [[ $? == 0 ]]; then
-                output_message=$output_message"- $repo: Done!"$'\n'
+                # Pull the repository for changes
+                if git pull --quiet --prune --ff-only --progress --autostash; then
+                    echo "- $repo: Pull complete!"
+                else
+                    echo "- $repo: Pull failed!"
+                fi
             else
-                output_message=$output_message"- $repo: Failed!"$'\n'
+                echo "- $repo: Ignored: No remote repo!"
             fi
             cd $project_path
         else
             if [[ $repo =~ ^zz-deprecated ]]; then
-                output_message=$output_message"- $repo: Ignored"$'\n'
+                echo "- $repo: Deprecated"
             fi
         fi
     done
