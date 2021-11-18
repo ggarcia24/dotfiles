@@ -30,7 +30,8 @@ module.exports = {
           "zoi.freshservice.com",
           "app.retrium.com",
           "kaercher.webex.com",
-          "eu-west-1.console.aws.amazon.com"
+          "eu-west-1.console.aws.amazon.com",
+          "app-eu.whitesourcesoftware.com",
         ]),
         browser: "Google Chrome"
     },
@@ -41,7 +42,7 @@ module.exports = {
           "wikipedia.org",
           "linkedin.com",
           "medium.com",
-          "github.com"
+          "github.com",
         ]),
         browser: "Firefox"
     }
