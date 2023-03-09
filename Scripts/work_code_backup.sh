@@ -7,7 +7,7 @@ src_dir="$HOME/Projects/"
 dest_dir="$HOME/Projects_Backup/"
 
 # run the sync
-rsync --dry-run -avzr --delete --links --perms --executability --times \
+rsync -avzr --delete --links --perms --executability --times \
   --filter=':- .gitignore' \
   --exclude='node_modules' \
   --exclude='.DS_Store' \

@@ -7,6 +7,7 @@ module.exports = {
   handlers: [
     {
         match: finicky.matchHostnames([
+          "www.zep-online.de",
           "identity.getpostman.com",
           "meet.google.com",
           "docs.google.com",

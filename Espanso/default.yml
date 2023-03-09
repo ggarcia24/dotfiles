@@ -1,6 +1,8 @@
 # espanso configuration file
 toggle_key: OFF
 
+secure_input_notification: false
+
 # This is the default configuration file, change it as you like it
 # You can refer to the official documentation:
 # https://espanso.org/docs/
@@ -29,3 +31,5 @@ matches:
         type: shell
         params:
           cmd: "echo Hello from your shell"
+  - trigger: "kadala"
+    replace: "KAADaLA"

@@ -5,7 +5,7 @@ set -e
 
 shopt -s nocasematch
 
-projects_directory="~/Projects"
+projects_directory="$HOME/Projects"
 
 function log() {
     if [ ! -z $DEBUG ]; then
@@ -24,7 +24,7 @@ do
     esac
 done
 
-code_path=$(python -c "import os; print(os.path.realpath(os.path.expanduser('$projects_directory')))")
+code_path=$(realpath $projects_directory)
 
 if [[ "$project" == "all" || "$project" == "" ]]; then
     projects=$(ls -1 $code_path)
@@ -36,38 +36,33 @@ for prj in $projects; do
     echo "Selected Project: $prj"
     project_path="$code_path"/"$prj"
     cd $project_path
-    for repo in $(ls -1); do
-        repo_path=$project_path/"$repo"
-        if [[ -d $repo_path && -d $repo_path/.git && ! $repo =~ ^zz-deprecated ]]; then
+    # Get all of the git repositories, adjust maxdepth
+    project_repos=$(find $project_path -name ".git" -type d -maxdepth 3 | sort)
+    for repo in $project_repos; do
+        repo_path=$(dirname $repo)
+        repo_name=$(basename $repo_path)
+        echo "- $repo_name"
+        if [[ ! $repo_name =~ ^zz-deprecated ]]; then
             cd $repo_path
+            remote_name=$(git remote)
             # If the repository has a remote
-            if [[ ! -z $(git remote) ]]; then
-                # Checkout the correct branch (develop, else master, else main_
-                if git rev-parse --quiet --verify origin/develop > /dev/null; then
-                    git checkout develop --quiet
+            if [[ ! -z $remote_name ]]; then
+                # Fetch remote ref changes
+                git fetch --all --prune --quiet
+                # Try to get the default branch name (develop, else master, else main)
+                main_branch=$(git remote show $remote_name | sed -n '/HEAD branch/s/.*: //p')
+                # Checkout default branch and pull the repository for changes
+                if git checkout $main_branch --quiet && git pull --quiet --prune --ff-only --progress --autostash > /dev/null 2>&1; then
+                    echo "Pull complete!"
                 else
-                    if git rev-parse --quiet --verify origin/master > /dev/null; then
-                        git checkout master --quiet
-                    else
-                        git checkout main --quiet
-                    fi
-                fi
-                # Pull the repository for changes
-                if git pull --quiet --prune --ff-only --progress --autostash; then
-                    echo "- $repo: Pull complete!"
-                else
-                    echo "- $repo: Pull failed!"
+                    echo "Pull failed!"
                 fi
             else
-                echo "- $repo: Ignored: No remote repo!"
+                echo "No remote repo!"
             fi
             cd $project_path
         else
-            if [[ $repo =~ ^zz-deprecated ]]; then
-                echo "- $repo: Deprecated"
-            fi
+            echo "Deprecated"
         fi
     done
-
-    echo "$output_message"
 done

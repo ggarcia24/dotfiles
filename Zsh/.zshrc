@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -51,7 +51,7 @@ DISABLE_UPDATE_PROMPT="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -72,17 +72,15 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
+# NVM options
+export NVM_AUTO_USE=true
+
+# Load plugins
 antigen bundle safe-paste
 antigen bundle brew
 antigen bundle git
 antigen bundle npm
-antigen bundle nvm
+antigen bundle lukechilds/zsh-nvm
 antigen bundle osx
 antigen bundle pipenv
 antigen bundle pyenv
@@ -184,6 +182,7 @@ alias l='ls -al'
 alias curl='curl --silent --show-error'
 alias tf='terraform'
 alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias vim='nvim'
 
 # global aliases
 alias -g L='| less'
