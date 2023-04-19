@@ -1,0 +1,9 @@
+[global]
+load_dotenv = false
+
+[whitelist]
+prefix = [
+    "/home/ggarcia/Projects",
+    "/home/ggarcia/Dropbox/Projects",
+    "/home/ggarcia/Dropbox_Projects"
+]
