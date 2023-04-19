@@ -8,7 +8,7 @@
 	autocorrect = 20
 
 [alias]
-	st = status -sb
+    st = status -sb
     co = switch
     save = !git add -A && git commit -m 'chore: commit save point'
     refresh = pull --ff-only --autostash --prune
@@ -20,6 +20,8 @@
     wo = workon
     workon = !git checkout develop && git pull && git co -c 
 
+[includeIf "gitdir:~/Dropbox_Projects/"]
+  path = ~/Dropbox_Projects/Personal/.gitconfig_include
 [includeIf "gitdir:~/Dropbox/Projects/Personal/"]
   path = ~/Dropbox/Projects/Personal/.gitconfig_include
 
