@@ -11,6 +11,7 @@ set -gx AWS_VAULT_PASS_PASSWORD_STORE_DIR ~/.password-store/aws-vault
 set -g theme_display_git_default_branch yes
 set -g theme_use_abbreviated_branch_name yes
 set -g theme_display_vagrant yes
+set -g theme_display_rust yes
 set -g theme_display_docker_machine no
 set -g theme_display_k8s_context yes
 set -g theme_display_hg yes

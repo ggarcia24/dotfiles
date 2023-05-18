@@ -1,2 +1,2 @@
 fish_add_path /home/linuxbrew/.linuxbrew/bin
-/home/linuxbrew/.linuxbrew/bin/brew shellenv | psub | source
+/home/linuxbrew/.linuxbrew/bin/brew shellenv | source
