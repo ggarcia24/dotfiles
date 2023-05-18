@@ -1,0 +1,7 @@
+*
+!lang.fish
+!phpenv.fish
+!pipx.fish
+!rust.fish
+!use_nvmrc.fish
+!.gitignore
