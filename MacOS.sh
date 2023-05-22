@@ -21,63 +21,96 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ## Install things
 xcode-select --install
 
+brew install fish
 brew install coreutils
+brew install tree
 brew install mas # Install MacStore cli tool
 
-brew install --cask rescuetime
-brew install --cask alfred
+# Browsers
+brew install --cask finicky
 brew install --cask firefox
 brew install --cask google-chrome
-brew install --cask google-chat
-brew install --cask google-drive
-brew install --cask slack
-brew install --cask skype
-brew install --cask openvpn-connect
 
-mas install 585829637 # Todoist
-mas install 526298438 # Lightshot
-brew install --cask rectangle
-brew install --cask finicky
-brew install --cask dropbox
-brew install --cask authy
-brew install --cask spotify
-brew install --cask obsidian
-brew install --cask calibre
+# Utils
+brew install jq
+brew install direnv
+brew install --cask keepassxc
 brew install --cask deepl
-brew install --cask notion
-brew install --cask libreoffice
-brew install --cask macpass
 
-brew tap federico-terzi/espanso
-brew install espanso
+# File Sync
+brew install --cask dropbox
+brew install --cask google-drive
 
-## Development Tools
-brew install font-fira-code
+# Messaging
+brew install --cask google-chat
+# brew install --cask slack
+brew install --cask discord
+brew install --cask skype
+
+
+# Development Tools
+brew install git-lfs
+brew install --cask font-fira-code-nerd-font
+brew install --cask font-noto-nerd-font
 brew install --cask sourcetree
 brew install --cask kdiff3
-brew install --cask iterm2
-brew install --cask macvim
+brew install --cask kitty
+brew install --cask neovim
 brew install --cask visual-studio-code
 brew install --cask postman
+brew install ripgrep
+
+# Docker Desktop Replacement
+brew install colima
 brew install --cask docker
+brew install docker-buildx
+brew install --cask virtualbox
+
+brew install --cask mockoon
+brew install --cask nosql-workbench
+
+# AWS
+brew install --cask aws-vault
+brew install awscli
+brew install docker-credential-helper-ecr
+
+# CPP
+brew install conan
 
 # Requirements for YCM
 brew install cmake python mono go nodejs
 
 # Python build requirements (for pyenv)
 brew install openssl readline sqlite3 xz zlib cmake
-
-brew install direnv
-brew install jq
-brew install awscli
 brew install pyenv
+brew install pipx
+
+# Terraform
 brew install tfenv
-brew install cfn-lint
+brew install tflint
 brew install terraform-docs
 
-# Searching!
-brew install the_silver_searcher
+# Serverless
+brew install cfn-lint
 
+# Misc!
+brew tap federico-terzi/espanso
+brew install espanso
+brew install --cask alfred
+brew install --cask authy
+mas install 526298438 # Lightshot
+brew install --cask rectangle
+brew install --cask the-unarchiver
+brew install --cask openvpn-connect
+brew install raindropio
+brew install telegram
+brew install gimp
+brew install --cask rescuetime
+brew install --cask spotify
+brew install --cask obsidian
+brew install --cask calibre
+brew install --cask notion
+brew install --cask libreoffice
 
 ###############################################################################
 # General UI/UX                                                               #
