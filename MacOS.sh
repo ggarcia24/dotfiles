@@ -18,8 +18,10 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-## Install things
-# xcode-select --install
+## Add extra repos
+brew tap homebrew/cask
+brew tap homebrew/cask-versions
+brew tap homebrew/cask-fonts
 
 brew install fish
 brew install coreutils
@@ -123,6 +125,9 @@ brew install --cask obsidian
 brew install --cask notion
 # brew install --cask libreoffice
 
+# 
+brew install --cask miro
+brew install --cask microsoft-onenote
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################

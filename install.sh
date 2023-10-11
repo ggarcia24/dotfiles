@@ -25,9 +25,9 @@ function install_package() {
         if ! [ -x "$(command -v brew)" ]; then
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-            brew tap homebrew/cask
-            brew tap homebrew/cask-versions
-            brew tap homebrew/cask-fonts
+            # After install add homebrew to the path
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+
         fi
         brew install $1
         exit_code=$?
