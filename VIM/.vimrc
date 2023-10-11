@@ -53,7 +53,7 @@ if has("clipboard") " Attempt to unify clipboards
     endif
 endif
 set nowrap
-set textwidth=96 " Line length
+set textwidth=79 " Line length
 set formatoptions= " Empty format options
 set formatoptions+=c " Format comments
 set formatoptions+=r " Continue comments by default
@@ -64,7 +64,7 @@ set formatoptions+=2 " Use indent from 2nd line of a paragraph
 set formatoptions+=l " Don't break lines that are already long
 set formatoptions+=1 " Break before 1-letter words
 set formatoptions+=j "
-set colorcolumn=+1
+set colorcolumn=72,80,96,120
 set hidden  " switch to another buffer without having to save it!
 "" autocmd FocusLost * :wa " Save on lost focus!
 set nobackup

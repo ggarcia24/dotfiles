@@ -6,16 +6,18 @@ ServerAliveInterval 300
 ServerAliveCountMax 3
 ForwardAgent yes
 CanonicalizeHostname yes
+IgnoreUnknown AddKeysToAgent,UseKeychain
+# UseRoaming No
+AddKeysToAgent yes
+UseKeychain yes
+IdentityFile ~/.ssh/private/gonzaloga
 
 # Include Work config
 include ~/Projects/Config/SSH/*
 
 Host *
- IgnoreUnknown AddKeysToAgent,UseKeychain
- # UseRoaming No
- AddKeysToAgent yes
- UseKeychain yes
- IdentityFile "~/PrivateKeys/ggarcia_ares.rsa"
+ User gonzaloga
+
 Host bitbucket.org
   User git
   IdentityFile "~/PrivateKeys/ggarcia_atenea.rsa"

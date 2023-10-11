@@ -19,7 +19,7 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ## Install things
-xcode-select --install
+# xcode-select --install
 
 brew install fish
 brew install coreutils
@@ -29,23 +29,24 @@ brew install mas # Install MacStore cli tool
 # Browsers
 brew install --cask finicky
 brew install --cask firefox
-brew install --cask google-chrome
+# brew install --cask google-chrome
 
 # Utils
 brew install jq
 brew install direnv
 brew install --cask keepassxc
 brew install --cask deepl
+brew install watch
 
 # File Sync
 brew install --cask dropbox
 brew install --cask google-drive
 
 # Messaging
-brew install --cask google-chat
+# brew install --cask google-chat
 # brew install --cask slack
-brew install --cask discord
-brew install --cask skype
+# brew install --cask discord
+# brew install --cask skype
 
 
 # Development Tools
@@ -55,16 +56,11 @@ brew install --cask font-noto-nerd-font
 brew install --cask sourcetree
 brew install --cask kdiff3
 brew install --cask kitty
-brew install --cask neovim
+brew install neovim
 brew install --cask visual-studio-code
 brew install --cask postman
 brew install ripgrep
-
-# Docker Desktop Replacement
-brew install colima
-brew install --cask docker
-brew install docker-buildx
-brew install --cask virtualbox
+brew install plantuml
 
 brew install --cask mockoon
 brew install --cask nosql-workbench
@@ -93,24 +89,39 @@ brew install terraform-docs
 # Serverless
 brew install cfn-lint
 
+# Java
+brew install jenv
+# Java 11, 17 and 20
+brew install openjdk@11 openjdk@17 openjdk
+brew install gradle
+
+# Virtualization tools
+# brew install colima
+# brew install --cask virtualbox
+brew install --cask docker
+brew install docker-buildx
+brew install helm
+brew install minikube
+brew install socket_vmnet
+
 # Misc!
-brew tap federico-terzi/espanso
+brew tap espanso/espanso
 brew install espanso
 brew install --cask alfred
-brew install --cask authy
-mas install 526298438 # Lightshot
+# brew install --cask authy
+# mas install 526298438 # Lightshot
 brew install --cask rectangle
 brew install --cask the-unarchiver
-brew install --cask openvpn-connect
+# brew install --cask openvpn-connect
 brew install raindropio
-brew install telegram
+# brew install telegram
 brew install gimp
 brew install --cask rescuetime
 brew install --cask spotify
 brew install --cask obsidian
-brew install --cask calibre
+# brew install --cask calibre
 brew install --cask notion
-brew install --cask libreoffice
+# brew install --cask libreoffice
 
 ###############################################################################
 # General UI/UX                                                               #
@@ -130,11 +141,12 @@ sudo nvram SystemAudioVolume=" "
 
 # Accessibility
 
-defaults write com.apple.universalaccess reduceTransparency -bool true
-defaults write com.apple.universalaccess reduceMotion -bool true
-defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+# These no longer work
+# defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceMotion -bool true
+# defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+# defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+# defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
