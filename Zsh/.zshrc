@@ -1,22 +1,17 @@
 export fpath=( ~/.zfunc "${fpath[@]}" )
 
-# If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-
-eval "$(direnv hook zsh)"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 setopt promptsubst
 
 export TERM="xterm-256color"
 
-if [ ! -f  ~/.antigen.zsh ]; then
-    curl -L git.io/antigen > ~/.antigen.zsh
+# Download antigen if it doesn't exists
+if [ ! -f  ~/antigen.zsh ]; then
+    curl -L git.io/antigen > ~/antigen.zsh
 fi
-source ~/.antigen.zsh
+source ~/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -74,27 +69,47 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# jenv options
+export JENV_SHELL=zsh
+export JENV_LOADED=1
+unset JAVA_HOME
+unset JDK_HOME
+
 # NVM options
 export NVM_AUTO_USE=true
+export NVM_LAZY_LOAD=true
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim')
+
+# pyenv options
+ZSH_PYENV_QUIET=true
 
 # Load plugins
-antigen bundle safe-paste
-antigen bundle brew
-antigen bundle git
-antigen bundle npm
-antigen bundle lukechilds/zsh-nvm
-antigen bundle osx
-antigen bundle pipenv
-antigen bundle pyenv
-# antigen bundle tmux
-antigen bundle z
+antigen bundles <<EOBUNDLES
+    # Bundles from the default repo (robbyrussell's oh-my-zsh)
+    safe-paste
+    brew
+    git
+    npm
+    osx
+    kubectl
+    pipenv
+    pyenv
+    jenv
+    # tmux
+    z
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-autosuggestions
+    lukechilds/zsh-nvm
 
-antigen bundle darvid/zsh-poetry
+    # Syntax highlighting bundle.
+    zsh-users/zsh-syntax-highlighting
+
+    zsh-users/zsh-completions
+
+    zsh-users/zsh-autosuggestions
+
+    darvid/zsh-poetry
+EOBUNDLES
+
 
 # User configuration
 
@@ -147,19 +162,6 @@ ZSH_THEME="bullet-train"
 # Tell Antigen that you're done.
 antigen apply
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/ggarcia/.nvm/versions/node/v12.13.0/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
-
 setopt AUTO_CD            # Change to a directory just by typing its name
 setopt AUTO_PUSHD         # Make cd push each old directory onto the stack
 setopt CDABLE_VARS        # Like AUTO_CD, but for named directories
@@ -186,28 +188,18 @@ alias l='ls -al'
 alias curl='curl --silent --show-error'
 alias tf='terraform'
 alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-alias vim='nvim'
+# alias vim='nvim'
 
 # global aliases
 alias -g L='| less'
 alias -g G='| grep'
 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(direnv hook zsh)"
 
 
-
-export PATH="/Users/gonzalo.garcia/.jenv/shims:${PATH}"
-export JENV_SHELL=zsh
-export JENV_LOADED=1
-unset JAVA_HOME
-unset JDK_HOME
-source '/opt/homebrew/Cellar/jenv/0.5.6/libexec/libexec/../completions/jenv.zsh'
 jenv rehash 2>/dev/null
 jenv refresh-plugins
-source "/Users/gonzalo.garcia/.jenv/plugins/export/etc/jenv.d/init/export_jenv_hook.zsh"
 jenv() {
   type typeset &> /dev/null && typeset command
   command="$1"
@@ -224,3 +216,10 @@ jenv() {
 }
 
 export GRAPHVIZ_DOT=$(which dot)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/completion.zsh.inc'; fi
+gcloud components update

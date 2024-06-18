@@ -1,4 +1,0 @@
-#! /bin/sh
-
-
-ssh -i ~/PrivateKeys/ggarcia-gitHub -l gonzalo -p 50022 localhost "$@"

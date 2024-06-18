@@ -124,3 +124,4 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 if test -f ".nvmrc"; then
     nvm use
 fi
+. "$HOME/.cargo/env"
