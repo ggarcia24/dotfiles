@@ -12,6 +12,8 @@ conky.config = {
     -------------------
     -- General Settings
     -------------------
+    out_to_x = false,
+    out_to_wayland = true,
     update_interval=5,
     update_interval_on_battery=60,
     total_run_times=0,
@@ -33,7 +35,7 @@ conky.config = {
     -- Windows Settings
     -------------------
     own_window=true,
-    own_window_type="desktop",
+    own_window_type="normal",
     own_window_transparent=true,
     own_window_hints="undecorated,above,sticky,skip_taskbar,skip_pager",
     -- own_window_class="overwride",
@@ -44,7 +46,7 @@ conky.config = {
     draw_shades=false,
     draw_outline=false,
     draw_borders=false,
-    
+
     -------------------
     -- Windows Position and Size
     -------------------
@@ -62,26 +64,12 @@ conky.config = {
 
 conky.text = [[
     SYSTEM ${hr 2}
-    ${offset 24}${alignc}${font OpenLogos:size=50}J${font} 
+    ${offset 24}${alignc}${font OpenLogos:size=50}J${font}
     DATE ${hr 2}
     ${offset 8}${alignc}${font Arial Black:size=18}${time %H:%M}${font}
     ${alignc}${time %a, %d}
     ${alignc}${time %B}
     ${alignc}${time %Y}
-
-    WEATHER ${hr 2}
-    ${font size=1}${execi 600 bash ~/.conky/scripts/accu_weather/rss/acc_rss}${font}${offset 20}${alignc}${font conkyweather:size=40}${execpi 600 sed -n '2p' ~/.conky/scripts/accu_weather/rss/weather}${font}
-    ${offset 20}${voffset -15}${alignc}${font Arial Black:size=16}${execpi 600 sed -n '1p' ~/.conky/scripts/accu_weather/rss/weather|awk '{print $NF}' | sed -e 's/C/°C/i'}${font}
-    ${hr}
-    ${execpi 1800 sed -n '3p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/ Forecast//'}
-    ${alignc}${font conkyweather:size=30}${execpi 1800 sed -n '5p' ~/.conky/scripts/accu_weather/rss/weather}${font}
-    ${execpi 1800 sed -n '4p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\1/' | sed -e 's/C/°C/i'}
-    ${execpi 1800 sed -n '4p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\2/' | sed -e 's/C/°C/i'}
-    ${hr}
-    ${execpi 1800 sed -n '6p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/ Forecast//'}
-    ${alignc}${font conkyweather:size=30}${execpi 1800 sed -n '8p' ~/.conky/scripts/accu_weather/rss/weather}${font}
-    ${execpi 1800 sed -n '7p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\1/' | sed -e 's/C/°C/i'}
-    ${execpi 1800 sed -n '7p' ~/.conky/scripts/accu_weather/rss/weather | sed 's/^\(High\: [0-9]\+ C\) \(Low\: [0-9]\+ C\).*$/\2/' | sed -e 's/C/°C/i'}
 
     LOAD ${hr 2}
     Battery: ${alignr}${battery_percent} %
@@ -94,10 +82,6 @@ conky.text = [[
     ${alignr}${membar 8,60}
     SWAP: $swapperc%
     ${alignr}${swapbar 8,60}
-    Fan 1:
-    ${alignr}${hwmon 1 fan 1} Rpm
-    Fan 2:
-    ${alignr}${hwmon 1 fan 2} Rpm
 
     PROCESSES ${hr 2}
     ${top name 1}

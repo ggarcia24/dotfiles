@@ -40,12 +40,12 @@ function install_package() {
         elif [ -x "$(command -v yum)" ]; then
             INSTALL_COMMAND=yum
         fi
-        $INSTALL_COMMAND install $1
+        sudo $INSTALL_COMMAND install $1
         exit_code=$?
     elif [ $OS == 'Windows' ]; then
         log_error "Windows not supported"
     fi
-    exit $exit_code
+    # exit $exit_code
 }
 
 function log_error() {
@@ -146,15 +146,15 @@ fi
 
 cd $CURRENT_DIR
 
-if [! $(command -v nvim) ]; then 
+if [ ! $(command -v nvim) ]; then 
     install_package neovim
 fi
 
-if [! $(command -v tux) ]; then 
+if [ ! $(command -v tux) ]; then 
     install_package tmux
 fi
 
-if [! $(command -v pyenv) ]; then 
+if [ ! $(command -v pyenv) ]; then 
     install_package pyenv
 fi
 

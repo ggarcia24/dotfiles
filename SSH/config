@@ -10,13 +10,9 @@ IgnoreUnknown AddKeysToAgent,UseKeychain
 # UseRoaming No
 AddKeysToAgent yes
 UseKeychain yes
-IdentityFile ~/.ssh/private/gonzaloga
 
 # Include Work config
 include ~/Projects/Config/SSH/*
-
-Host *
- User gonzaloga
 
 Host bitbucket.org
   User git
@@ -28,8 +24,7 @@ Host gitlab.com
   User git
 Host github.com
   User git
-
 Host ggarcia24.duckdns.org
-    User ggarcia
-    IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
+  User ggarcia
+  IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
 
