@@ -215,11 +215,22 @@ jenv() {
   esac
 }
 
+export GITHUB_GHE_PAT=$(security find-generic-password -a "$USER" -s "github-ghe-pat" -w 2>/dev/null)
+
 export GRAPHVIZ_DOT=$(which dot)
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/Projects/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Projects/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/Gonzalo.Garcia/Projects/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/Projects/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Projects/google-cloud-sdk/completion.zsh.inc"; fi
 gcloud components update
+
+if [ -f "$HOME/.unity/env" ]; then
+  # Unity CLI
+  . "$HOME/.unity/env"
+fi
+
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
