@@ -71,3 +71,5 @@ $RECYCLE.BIN/
 *.komodoproject
 
 *.orig
+
+**/.claude/settings.local.json
