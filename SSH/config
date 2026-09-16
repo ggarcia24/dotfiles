@@ -12,7 +12,7 @@ AddKeysToAgent yes
 UseKeychain yes
 
 # Include Work config
-include ~/Projects/Config/SSH/*
+include ~/Projects/Config/SSH/config
 
 Host bitbucket.org
   User git
@@ -27,4 +27,9 @@ Host github.com
 Host ggarcia24.duckdns.org
   User ggarcia
   IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
+
+Host hermes.ggarcia24.work
+  User ggarcia
+  IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
+  ProxyCommand /opt/homebrew/bin/cloudflared access ssh --hostname %h
 

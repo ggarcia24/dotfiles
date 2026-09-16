@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo -e "\n==== STARTING WORK CODE BACKUP ====\n"
+
 set -e # always immediately exit upon error
 
 # directory config. ending slashes are important!
@@ -13,3 +15,5 @@ rsync -avzr --delete --links --perms --executability --times \
   --exclude='.DS_Store' \
   --chmod='F-w' \
   "$src_dir" "$dest_dir"
+
+echo -e "\n==== END WORK CODE BACKUP ====\n"
