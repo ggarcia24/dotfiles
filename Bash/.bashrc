@@ -7,6 +7,11 @@ case $- in
     *) return;;
 esac
 
+if [ -d "$HOME/.rbenv" ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
 # Path to the bash it configuration
 export BASH_IT="$HOME/ggarcia24_dotfiles/External/bash-it"
 
