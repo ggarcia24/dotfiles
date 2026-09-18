@@ -8,7 +8,7 @@ set -x
 # Read some values
 #echo "Enter the hostname:"
 #read hostname
-hostname=STOLTMY53P341
+hostname=BER923X0D7
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -87,7 +87,7 @@ brew install pipx
 
 # Terraform
 brew install tfenv
-brew install tflint
+brew install terraform-linters/tap/tflint
 brew install terraform-docs
 
 # Serverless
@@ -130,9 +130,7 @@ brew install --cask notion
 # 
 brew install --cask miro
 brew install --cask microsoft-onenote
-###############################################################################
-# General UI/UX                                                               #
-###############################################################################
+
 
 # Set computer name (as done via System Preferences → Sharing)
 sudo scutil --set ComputerName $hostname
@@ -140,57 +138,64 @@ sudo scutil --set HostName $hostname
 sudo scutil --set LocalHostName $hostname
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $hostname
 
+##### System Preferences #######
+
+####
+# General
+#######
+
+
+# Set language and text formats
+defaults write -globalDomain AppleLanguages -array "en" "es"
+defaults write -globalDomain AppleLocale -string "en_US@currency=EUR"
+defaults write -globalDomain AppleMeasurementUnits -string "Centimeters"
+defaults write -globalDomain AppleMetricUnits -bool true
+
+
+defaults write -globalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write -globalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write -globalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write -globalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write -globalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable the over-the-top focus ring animation
+defaults write -globalDomain NSUseAnimatedFocusRing -bool false
+
+# Increase window resize speed for Cocoa applications
+defaults write -globalDomain NSWindowResizeTime -float 0.001
+
+# Expand save panel by default
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write -globalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+# Expand print panel by default
+defaults write -globalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Save to disk (not to iCloud) by default
+defaults write -globalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
 
-# Accessibility
-
-# These no longer work
-# defaults write com.apple.universalaccess reduceTransparency -bool true
-# defaults write com.apple.universalaccess reduceMotion -bool true
-# defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-# defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-# defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
-
-# Set sidebar icon size to medium
-defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
-
-# Always show scrollbars
-defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-# Possible values: `WhenScrolling`, `Automatic` and `Always`
-
-# Disable the over-the-top focus ring animation
-defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
-
-# Increase window resize speed for Cocoa applications
-defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
-
-# Expand save panel by default
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
-
-# Expand print panel by default
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
-
-# Save to disk (not to iCloud) by default
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 # Automatically quit printer app once the print jobs complete
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+defaults write org.cups.PrintingPrefs DefaultPaperID -string "iso-a4"
 
 # Display ASCII control characters using caret notation in standard text views
 # Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
-defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
+defaults write -globalDomain NSTextShowsControlCharacters -bool true
 
 # Disable Resume system-wide
-defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
+# defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 # Disable automatic termination of inactive apps
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+defaults write -globalDomain NSDisableAutomaticTermination -bool true
 
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
@@ -199,20 +204,146 @@ defaults write com.apple.helpviewer DevMode -bool true
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
+####
+# Accessibility
+####
+
+# Vision
+## Display
+defaults write com.apple.transparencyd reduceTransparency -bool true
+## Motion
+defaults write com.apple.Accessibility ReduceMotionEnabled -bool true
+
+###############################################################################
+# Appearance #
+###############################################################################
+
+defaults write -globalDomain AppleInterfaceStyle -string "Dark"
+defaults write -globalDomain NSGlassDiffusionSetting -int 1
+
+# Windows
+defaults write -globalDomain NSTableViewDefaultSizeMode -int 2
+defaults write -globalDomain AppleReduceDesktopTinting -bool true
+defaults write -globalDomain AppleShowScrollBars -string "Always"
+defaults write -globalDomain AppleScrollerPagingBehavior -int 1
+
+########
+# Desktop & Dock #
+########
+
+# Dock
+defaults write com.apple.dock tilesize -int 32
+defaults write com.apple.dock largesize -int 128
+defaults write com.apple.dock mineffect -string "scale"
+defaults write com.apple.dock minimize-to-application -bool true
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock launchanim -bool false
+defaults write com.apple.dock show-process-indicators -bool true
+defaults write com.apple.dock show-recents -bool false
+
+# Desktop & Stage Manager
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+# Widgets
+defaults write com.apple.WindowManager StageManagerHideWidgets -bool true
+defaults write com.apple.WindowManager StandardHideWidgets -bool true
+
+# Windows
+defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+defaults write com.apple.WindowManager EnableTilingByEdgeDrag -bool false
+defaults write com.apple.WindowManager EnableTilingOptionAccelerator -bool false
+defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
+
+######
+# Displays
+#######
+
+# Find a way to configure resolution to more spaace
+
+
+#######
+# Menu Bar
+#######
+
+# Menu Bar Controls
+defaults -currentHost write com.apple.controlcenter Spotlight -int 8
+defaults -currentHost write com.apple.controlcenter WiFi -int 1
+defaults -currentHost write com.apple.controlcenter Bluetooth -int 2
+defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -int 1
+defaults -currentHost write com.apple.controlcenter FocusModes -int 8
+defaults -currentHost write com.apple.controlcenter Display -int 8
+defaults -currentHost write com.apple.controlcenter Sound -int 16
+defaults -currentHost write com.apple.controlcenter NowPlaying -int 8
+defaults -currentHost write com.apple.controlcenter Timer -int 8
+
+#####
+# Wallpaper
+#######
+
+# Find how to set the wallpaper to black
+
+####
+# Lock Screen
+####
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults write NSGlobalDomain AppleFontSmoothing -int 1
+sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+
+defaults write com.apple.screencapture disable-shadow -bool true
+defaults write com.apple.screencapture location -string "${HOME}/Desktop"
+defaults write com.apple.screencapture type -string "png"
+
+
+#####
+# Keyboard
+#######
+defaults write -globalDomain KeyRepeat -int 7
+defaults write -globalDomain InitialKeyRepeat -int 15
+
+# Disable the spotlight shortcut
+plutil -replace AppleSymbolicHotKeys.64.enabled -bool false ~/Library/Preferences/com.apple.symbolichotkeys.plist 
+plutil -replace AppleSymbolicHotKeys.64.value.parameters -json '{}' ~/Library/Preferences/com.apple.symbolichotkeys.plist
+# Enable the F1 keys by default
+defaults write -globalDomain com.apple.keyboard.fnState -bool true
+
+
+
+
+###########
+# Trackpad
+###########
+
+defaults -currentHost write -globalDomain com.apple.mouse.tapBehavior -bool true
+defaults -currentHost write -globalDomain com.apple.trackpad.twoFingerDoubleTapGesture -int 1
+defaults -currentHost write -globalDomain com.apple.trackpad.twoFingerFromRightEdgeSwipeGesture -int 3
+defaults -currentHost write -globalDomain com.apple.trackpad.threeFingerDragGesture -bool false
+defaults -currentHost write -globalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 2
+defaults -currentHost write -globalDomain com.apple.trackpad.threeFingerTapGesture -bool false
+defaults -currentHost write -globalDomain com.apple.trackpad.threeFingerVertSwipeGesture -bool false
+defaults -currentHost write -globalDomain com.apple.trackpad.fourFingerHorizSwipeGesture -int 2
+defaults -currentHost write -globalDomain com.apple.trackpad.fourFingerVertSwipeGesture -bool false
+defaults -currentHost write -globalDomain com.apple.trackpad.fourFingerPinchSwipeGesture -bool false
+
+
+# Increase sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+
+
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
 
 # Never go into computer sleep mode
 sudo systemsetup -setcomputersleep Off > /dev/null
 
+
 # Disable Notification Center and remove the menu bar icon
 launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
-defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -230,51 +361,10 @@ if [ -d "/private/var/vm/sleepimage" ]; then
     sudo chflags uchg /private/var/vm/sleepimage
 fi
 
-###############################################################################
-# Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
-###############################################################################
-
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
-defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
-
-# Increase sound quality for Bluetooth headphones/headsets
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-defaults write NSGlobalDomain KeyRepeat -int 7
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
-
-# Set language and text formats
-defaults write NSGlobalDomain AppleLanguages -array "en" "es"
-defaults write NSGlobalDomain AppleLocale -string "en_US@currency=EUR"
-defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
-defaults write NSGlobalDomain AppleMetricUnits -bool true
-
 # Show language menu in the top right corner of the boot screen
 # sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
-
-###############################################################################
-# Screen                                                                      #
-###############################################################################
-
-# Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
-defaults write NSGlobalDomain AppleFontSmoothing -int 1
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
-
-defaults write com.apple.screencapture disable-shadow -bool true
-defaults write com.apple.screencapture location -string "${HOME}/Desktop"
-defaults write com.apple.screencapture type -string "png"
 
 
 ###############################################################################
@@ -345,28 +435,6 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	OpenWith -bool true \
 	Privileges -bool true
 
-########
-# Dock #
-########
-
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock autohide-time-modifier -float 0
-defaults write com.apple.dock dashboard-in-overlay -bool true
-defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
-defaults write com.apple.dock expose-animation-duration -float 0.1
-defaults write com.apple.dock expose-group-by-app -bool false
-defaults write com.apple.dock launchanim -bool false
-defaults write com.apple.dock magnification -bool true
-defaults write com.apple.dock mineffect -string "scale"
-defaults write com.apple.dock minimize-to-application -bool true
-defaults write com.apple.dock mouse-over-hilite-stack -bool true
-defaults write com.apple.dock mru-spaces -bool false
-defaults write com.apple.dock show-process-indicators -bool true
-defaults write com.apple.dock show-recents -bool false
-defaults write com.apple.dock showhidden -bool true
-defaults write com.apple.dock tilesize -int 32
-
 #############
 # Dashboard #
 #############
@@ -377,10 +445,6 @@ defaults write com.apple.dashboard mcx-disabled -bool true
 if [ -d "${HOME}/Library/Application Support/Dock" ]; then
     find "${HOME}/Library/Application Support/Dock" -name "*-*.db" -maxdepth 1 -delete
 fi
-
-# Add iOS & Watch Simulator to Launchpad
-sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
-sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator (Watch).app" "/Applications/Simulator (Watch).app"
 
 ###############
 # Hot corners #
@@ -402,115 +466,9 @@ defaults write com.apple.dock wvous-tr-corner -int 0
 defaults write com.apple.dock wvous-tr-modifier -int 0
 defaults write com.apple.dock wvous-bl-corner -int 0
 defaults write com.apple.dock wvous-bl-modifier -int 0
+defaults write com.apple.dock wvous-br-corner -int 0
+defaults write com.apple.dock wvous-br-modifier -int 0
 
-###############################################################################
-# Safari & WebKit                                                             #
-###############################################################################
-
-# Privacy: don’t send search queries to Apple
-# defaults write com.apple.Safari UniversalSearchEnabled -bool false
-# defaults write com.apple.Safari SuppressSearchSuggestions -bool true
-
-# Press Tab to highlight each item on a web page
-# defaults write com.apple.Safari WebKitTabToLinksPreferenceKey -bool true
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2TabsToLinks -bool true
-
-# Show the full URL in the address bar (note: this still hides the scheme)
-# defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
-
-# Set Safari’s home page to `about:blank` for faster loading
-# defaults write com.apple.Safari HomePage -string "about:blank"
-
-# Prevent Safari from opening ‘safe’ files automatically after downloading
-# defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
-
-# Allow hitting the Backspace key to go to the previous page in history
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true
-
-# Hide Safari’s bookmarks bar by default
-# defaults write com.apple.Safari ShowFavoritesBar -bool false
-
-# Hide Safari’s sidebar in Top Sites
-# defaults write com.apple.Safari ShowSidebarInTopSites -bool false
-
-# Disable Safari’s thumbnail cache for History and Top Sites
-# defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
-
-# Enable Safari’s debug menu
-# defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-
-# Make Safari’s search banners default to Contains instead of Starts With
-# defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
-
-# Remove useless icons from Safari’s bookmarks bar
-# defaults write com.apple.Safari ProxiesInBookmarksBar "()"
-
-# Enable the Develop menu and the Web Inspector in Safari
-# defaults write com.apple.Safari IncludeDevelopMenu -bool true
-# defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
-
-# Add a context menu item for showing the Web Inspector in web views
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
-
-# Enable continuous spellchecking
-# defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true
-
-# Disable auto-correct
-# defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false
-
-# Disable AutoFill
-# defaults write com.apple.Safari AutoFillFromAddressBook -bool false
-# defaults write com.apple.Safari AutoFillPasswords -bool false
-# defaults write com.apple.Safari AutoFillCreditCardData -bool false
-# defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false
-
-# Warn about fraudulent websites
-# defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true
-
-# Disable plug-ins
-# defaults write com.apple.Safari WebKitPluginsEnabled -bool false
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool false
-
-# Disable Java
-# defaults write com.apple.Safari WebKitJavaEnabled -bool false
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
-
-# Block pop-up windows
-# defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
-
-# Disable auto-playing video
-# defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false
-# defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false
-# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
-# defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
-
-# Enable “Do Not Track”
-# defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
-
-# Update extensions automatically
-# defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
-
-###############################################################################
-# Mail                                                                        #
-###############################################################################
-
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-defaults write com.apple.mail DisableReplyAnimations -bool true
-defaults write com.apple.mail DisableSendAnimations -bool true
-defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
-
-# Display emails in threaded mode, sorted by date (oldest at the top)
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
-
-# Disable inline attachments (just show the icons)
-defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
-
-# Disable automatic spell checking
-defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
 
 
 ###############################################################################
@@ -605,6 +563,12 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
 defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false
 defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
-defaults delete -g ApplePressAndHoldEnabled
+
+
+if ! grep -q "/opt/homebrew/bin/fish" /etc/shells; then
+    echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
+fi
+chsh -s /opt/homebrew/bin/fish
+
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
