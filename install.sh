@@ -69,11 +69,16 @@ else
     git pull
 fi
 
-# After all the cloning has been done, simlink all the things!
+# After all the cloning has been done, simlink all the configuration files
 cd $HOME
 ln -sf "$DOTFILES_LOCATION/Bash/.bashrc"
 ln -sf "$DOTFILES_LOCATION/Bash/aliases.sh" .aliases
 ln -sf "$DOTFILES_LOCATION/Bash/functions.sh" .functions
+ln -sf "$DOTFILES_LOCATION/Git/.gitignore" .gitignore_global
+ln -sf "$DOTFILES_LOCATION/Fish" .config/fish
+ln -sf "$DOTFILES_LOCATION/DirEnv" .config/direnv
+ln -sf "$DOTFILES_LOCATION/Zsh/.zshrc"
+ln -sf "$DOTFILES_LOCATION/Zsh/.zshenv" .zshenv
 
 if [ ! -f ~/.gitconfig ]; then
     touch ~/.gitconfig
@@ -81,12 +86,9 @@ fi
 cat <<EOF >> ~/.gitconfig
 
 [include]
-	path = ~/ggarcia24_dotfiles/Git/.gitconfig
+	path = $DOTFILES_LOCATION/Git/.gitconfig
 
 EOF
-
-ln -sf "$DOTFILES_LOCATION/Git/.gitignore" .gitignore_global
-ln -sf "$DOTFILES_LOCATION/Zsh/.zshrc"
 
 if [ ! -d ~/.ssh ]; then
     ln -sf "$DOTFILES_LOCATION/SSH" .ssh

@@ -1,7 +1,10 @@
 *
 !lang.fish
+!direnv.fish
+!tide.fish
 !phpenv.fish
 !pipx.fish
 !rust.fish
 !use_nvmrc.fish
+!zoxide.fish
 !.gitignore

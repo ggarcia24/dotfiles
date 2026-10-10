@@ -65,6 +65,10 @@ brew install --cask visual-studio-code
 brew install --cask postman
 brew install ripgrep
 brew install plantuml
+brew install gh
+brew install uv
+brew install --cask claude-code
+brew install github-mcp-server
 
 brew install --cask mockoon
 brew install --cask nosql-workbench
@@ -144,11 +148,18 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 # General
 #######
 
+# Find a way to make airDrop = "No One" 
 
-# Set language and text formats
+# Date and Time
+defaults write -globalDomain AppleICUForce24HourTime -bool true
+
+# Launguage & Region
 defaults write -globalDomain AppleLanguages -array "en" "es"
 defaults write -globalDomain AppleLocale -string "en_US@currency=EUR"
+defaults write -globalDomain AppleTemperatureUnit -string "Celsius"
 defaults write -globalDomain AppleMeasurementUnits -string "Centimeters"
+defaults write -globalDomain AppleFirstWeekday -dict "gregorian" 2 # Week starts on Monday
+defaults write -globalDomain AppleICUDateFormatStrings -dict 1 = "dd/MM/y";
 defaults write -globalDomain AppleMetricUnits -bool true
 
 
@@ -175,13 +186,11 @@ defaults write -globalDomain PMPrintingExpandedStateForPrint2 -bool true
 # Save to disk (not to iCloud) by default
 defaults write -globalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
-
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
-
 
 # Automatically quit printer app once the print jobs complete
 defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true

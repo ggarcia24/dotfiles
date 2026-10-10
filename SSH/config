@@ -27,6 +27,10 @@ Host github.com
 Host ggarcia24.duckdns.org
   User ggarcia
   IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
+Host astra.usbx.me
+  User ggarcia
+  IdentityFile "~/PrivateKeys/ggarcia-apollo.ed"
+
 
 Host hermes.ggarcia24.work
   User ggarcia
